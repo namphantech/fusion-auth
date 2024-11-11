@@ -1,1 +1,10 @@
 /node_modules
+
+# OS
+.DS_Store
+
+# IDEs and editors
+/.idea
+
+# dotenv environment variable files
+.env

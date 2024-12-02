@@ -3,8 +3,7 @@ export interface IProviderCredential {
   clientSecret: string;
   redirectUri: string;
 }
-
-export enum OauthSocialProvider {
+export enum OAuthProviderType {
   GOOGLE = "google",
   FACEBOOK = "facebook",
   DISCORD = "discord",
@@ -16,9 +15,7 @@ export enum OauthSocialProvider {
   TIKTOK = "tiktok",
 }
 
+
 export interface OauthUserInfo {
-  sub: string;
-  email: string;
-  username: string;
-  picture: string;
+  type: OAuthProviderType
 }

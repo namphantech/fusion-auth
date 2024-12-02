@@ -1,3 +1,4 @@
+import { OauthUserInfo } from "../definition";
 export interface OAuth2ClientEndpoints {
     /**
      * The base endpoint for token retrieval
@@ -20,4 +21,13 @@ export interface ExchangeToGoogleToken {
     scope: string;
     token_type: string;
     id_token: string;
+}
+export interface OauthGoogleUserInfo extends OauthUserInfo {
+    sub: string;
+    name: string;
+    given_name: string;
+    family_name: string;
+    picture: string;
+    email: string;
+    email_verified: boolean;
 }

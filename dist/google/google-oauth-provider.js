@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoogleOauthProvider = void 0;
 const axios_1 = __importDefault(require("axios"));
 const oauth_provider_abstract_1 = require("../oauth-provider.abstract");
+const definition_1 = require("../definition");
 class GoogleOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
     constructor(credential) {
         super(credential);
@@ -27,33 +28,34 @@ class GoogleOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const tokenData = yield this.exchangeCodeToToken(code);
-                const userInfo = yield this.fetchUserInfo(tokenData.access_token);
+                const response = yield axios_1.default.get(this.endpoints.oauth2UserInfoUrl, {
+                    params: { access_token: tokenData.access_token },
+                });
+                const googleUserInfo = response.data;
                 return {
-                    email: userInfo.email,
-                    sub: userInfo.sub,
-                    picture: userInfo.picture,
-                    username: userInfo.name,
+                    type: definition_1.OAuthProviderType.GOOGLE,
+                    sub: googleUserInfo.sub,
+                    name: googleUserInfo.name,
+                    given_name: googleUserInfo.given_name,
+                    family_name: googleUserInfo.family_name,
+                    picture: googleUserInfo.picture,
+                    email: googleUserInfo.email,
+                    email_verified: googleUserInfo.email_verified,
                 };
             }
             catch (error) {
                 if (error.response) {
-                    throw new Error(`OAuth error: ${error.response.data}`);
+                    console.error(error.response.data);
+                    throw error;
                 }
-                throw new Error(`OAuth error: ${error.message}`);
+                console.error(error);
+                throw error;
             }
         });
     }
     exchangeCodeToToken(code) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield axios_1.default.post(this.endpoints.oauth2TokenUrl, Object.assign(Object.assign({}, this.credential), { code, grant_type: "authorization_code" }));
-            return response.data;
-        });
-    }
-    fetchUserInfo(accessToken) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.get(this.endpoints.oauth2UserInfoUrl, {
-                params: { access_token: accessToken },
-            });
             return response.data;
         });
     }

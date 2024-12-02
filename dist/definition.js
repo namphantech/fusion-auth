@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OauthSocialProvider = void 0;
-var OauthSocialProvider;
-(function (OauthSocialProvider) {
-    OauthSocialProvider["GOOGLE"] = "google";
-    OauthSocialProvider["FACEBOOK"] = "facebook";
-    OauthSocialProvider["DISCORD"] = "discord";
-    OauthSocialProvider["TELEGRAM"] = "telegram";
-    OauthSocialProvider["TWITTER"] = "twitter";
-    OauthSocialProvider["GITHUB"] = "github";
-    OauthSocialProvider["LINKEDIN"] = "linkedin";
-    OauthSocialProvider["INSTAGRAM"] = "instagram";
-    OauthSocialProvider["TIKTOK"] = "tiktok";
-})(OauthSocialProvider || (exports.OauthSocialProvider = OauthSocialProvider = {}));
+exports.OAuthProviderType = void 0;
+var OAuthProviderType;
+(function (OAuthProviderType) {
+    OAuthProviderType["GOOGLE"] = "google";
+    OAuthProviderType["FACEBOOK"] = "facebook";
+    OAuthProviderType["DISCORD"] = "discord";
+    OAuthProviderType["TELEGRAM"] = "telegram";
+    OAuthProviderType["TWITTER"] = "twitter";
+    OAuthProviderType["GITHUB"] = "github";
+    OAuthProviderType["LINKEDIN"] = "linkedin";
+    OAuthProviderType["INSTAGRAM"] = "instagram";
+    OAuthProviderType["TIKTOK"] = "tiktok";
+})(OAuthProviderType || (exports.OAuthProviderType = OAuthProviderType = {}));

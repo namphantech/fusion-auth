@@ -16,3 +16,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./definition"), exports);
 __exportStar(require("./oauth-provider.factory"), exports);
+__exportStar(require("./google/google.interface"), exports);

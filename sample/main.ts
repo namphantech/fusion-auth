@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { OauthProviderFactory, OauthSocialProvider } from 'fusion-auth';
+import { OauthProviderFactory, OAuthProviderType } from 'fusion-auth';
 
 async function getGoogleUserInfo(responseCode: string) {
     const oauthConfig = {
@@ -11,9 +11,9 @@ async function getGoogleUserInfo(responseCode: string) {
     try {
         const googleProvider = OauthProviderFactory.createProvider(
             oauthConfig,
-            OauthSocialProvider.GOOGLE
+            OAuthProviderType.GOOGLE
         );
-        return await googleProvider.verifyCode(responseCode);
+        return  await googleProvider.verifyCode(responseCode);
     } catch (error) {
         throw error;
     }

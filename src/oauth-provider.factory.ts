@@ -1,22 +1,21 @@
-import { OAuthProvider } from "./oauth-provider.abstract";
+import {OAuthProvider} from "./oauth-provider.abstract";
 
-import { GoogleOauthProvider } from "./google/google-oauth-provider";
-import { OauthSocialProvider } from "./definition";
-import { IProviderCredential } from "./definition";
-import {CredentialValidator} from "./client-credential.validator";
+import {GoogleOauthProvider} from "./google/google-oauth-provider";
+import {IProviderCredential, OAuthProviderType} from "./definition";
+import {ClientCredentialValidator} from "./client-credential.validator";
 
 export class OauthProviderFactory {
   public static createProvider(
     credential: IProviderCredential,
-    provider: OauthSocialProvider
+    provider: OAuthProviderType
   ): OAuthProvider {
 
-    CredentialValidator.validate(credential);
+    ClientCredentialValidator.validate(credential);
     switch (provider) {
-      case OauthSocialProvider.GOOGLE:
+      case OAuthProviderType.GOOGLE:
         return new GoogleOauthProvider(credential);
       default:
-        throw new Error(`The ${provider} isn't support`);
+        throw new Error(`This current ${provider} isn't support`);
     }
   }
 }

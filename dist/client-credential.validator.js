@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CredentialValidator = void 0;
-class CredentialValidator {
+exports.ClientCredentialValidator = void 0;
+class ClientCredentialValidator {
     static validate(credential) {
         for (const [key, value] of Object.entries(credential)) {
             if (!value) {
@@ -10,4 +10,4 @@ class CredentialValidator {
         }
     }
 }
-exports.CredentialValidator = CredentialValidator;
+exports.ClientCredentialValidator = ClientCredentialValidator;

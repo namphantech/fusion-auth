@@ -1,7 +1,11 @@
 import axios from "axios";
-import { OAuthProvider } from "../oauth-provider.abstract";
-import {ExchangeToGoogleToken, OAuth2ClientEndpoints} from "./google.interface";
-import {IProviderCredential, OauthUserInfo} from "../definition";
+import {OAuthProvider} from "../oauth-provider.abstract";
+import {
+  ExchangeToGoogleToken,
+  OauthGoogleUserInfo,
+  OAuth2ClientEndpoints,
+} from "./google.interface";
+import {IProviderCredential, OAuthProviderType} from "../definition";
 
 export class GoogleOauthProvider extends OAuthProvider {
   readonly endpoints: Readonly<OAuth2ClientEndpoints>;
@@ -14,23 +18,31 @@ export class GoogleOauthProvider extends OAuthProvider {
     };
   }
 
-  async verifyCode(code: string): Promise<OauthUserInfo> {
+  async verifyCode(code: string): Promise<OauthGoogleUserInfo> {
     try {
       const tokenData = await this.exchangeCodeToToken(code);
-      const userInfo =  await this.fetchUserInfo(tokenData.access_token);
+      const response = await axios.get<OauthGoogleUserInfo>(this.endpoints.oauth2UserInfoUrl, {
+        params: { access_token: tokenData.access_token },
+      });
+      const googleUserInfo = response.data;
 
       return {
-        email: userInfo.email,
-        sub: userInfo.sub,
-        picture: userInfo.picture,
-        username: userInfo.name,
-
+        type: OAuthProviderType.GOOGLE,
+        sub: googleUserInfo.sub,
+        name: googleUserInfo.name,
+        given_name: googleUserInfo.given_name,
+        family_name: googleUserInfo.family_name,
+        picture: googleUserInfo.picture,
+        email: googleUserInfo.email,
+        email_verified: googleUserInfo.email_verified,
       }
     } catch (error) {
       if (error.response) {
-        throw new Error(`OAuth error: ${error.response.data}`);
+        console.error(error.response.data);
+        throw error
       }
-      throw new Error(`OAuth error: ${error.message}`);
+      console.error(error);
+      throw error;
     }
   }
 
@@ -46,11 +58,5 @@ export class GoogleOauthProvider extends OAuthProvider {
     return response.data;
   }
 
-  private async fetchUserInfo(accessToken: string) {
-    const response = await axios.get(this.endpoints.oauth2UserInfoUrl, {
-      params: { access_token: accessToken },
-    });
-    return response.data;
-  }
 
 }

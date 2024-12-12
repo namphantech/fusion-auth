@@ -4,7 +4,7 @@
 
 This library simplifies the process of integrating OAuth2.0 Authorization
 
-### How ```FusionAuth-SDK``` Works Behind the Scenes
+### How ```FusionAuth-SDK``` works behind the scenes
 
 ![fusion-auth](docs/fusion-auth-flow.png)
 

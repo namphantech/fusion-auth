@@ -2,7 +2,7 @@
 
 This library simplifies OAuth2.0 Authorization for social login integration, allowing developers to easily authenticate users through popular social platforms like Google, Facebook, GitHub, Discord.
 
-### How ```FusionAuth-SDK``` works behind the scenes
+### How `FusionAuth-SDK` works behind the scenes
 
 ![fusion-auth](docs/fusion-auth-flow.png)
 
@@ -28,7 +28,7 @@ const responseCode = ''
 
 try {
   const googleProvider = OauthProviderFactory.createProvider(
-    oauthConfig,
+    googleOauthConfig,
     OAuthProviderType.GOOGLE
   );
 
@@ -54,7 +54,7 @@ const responseCode = ''
 
  try {
     const facebookProvider = OauthProviderFactory.createProvider(
-      oauthConfig,
+      facebookOauthConfig,
       OAuthProviderType.FACEBOOK
     );
     const facebookUserInfo: IOauthUserInfo = await facebookProvider.verifyCode(

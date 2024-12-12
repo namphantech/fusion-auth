@@ -1,11 +1,15 @@
 import axios from "axios";
-import {OAuthProvider} from "../oauth-provider.abstract";
+import { OAuthProvider } from "../oauth-provider.abstract";
 import {
-  ExchangeToGoogleToken,
-  OauthGoogleUserInfo,
-  OAuth2ClientEndpoints,
+  IGoogleOauthUserApiResponse,
+  IExchangeToGoogleToken,
 } from "./google.interface";
-import {IProviderCredential, OAuthProviderType} from "../definition";
+import {
+  IOauthUserInfo,
+  IProviderCredential,
+  OAuth2ClientEndpoints,
+  OAuthProviderType,
+} from "../definition";
 
 export class GoogleOauthProvider extends OAuthProvider {
   readonly endpoints: Readonly<OAuth2ClientEndpoints>;
@@ -18,36 +22,33 @@ export class GoogleOauthProvider extends OAuthProvider {
     };
   }
 
-  async verifyCode(code: string): Promise<OauthGoogleUserInfo> {
+  public async verifyCode(code: string): Promise<IOauthUserInfo> {
     try {
       const tokenData = await this.exchangeCodeToToken(code);
-      const response = await axios.get<OauthGoogleUserInfo>(this.endpoints.oauth2UserInfoUrl, {
-        params: { access_token: tokenData.access_token },
-      });
+      const response = await axios.get<IGoogleOauthUserApiResponse>(
+        this.endpoints.oauth2UserInfoUrl,
+        {
+          params: { access_token: tokenData.access_token },
+        }
+      );
       const googleUserInfo = response.data;
 
       return {
         type: OAuthProviderType.GOOGLE,
         sub: googleUserInfo.sub,
         name: googleUserInfo.name,
-        given_name: googleUserInfo.given_name,
-        family_name: googleUserInfo.family_name,
-        picture: googleUserInfo.picture,
+        pictureUrl: googleUserInfo.picture,
         email: googleUserInfo.email,
-        email_verified: googleUserInfo.email_verified,
-      }
+      };
     } catch (error) {
-      if (error.response) {
-        console.error(error.response.data);
-        throw error
-      }
-      console.error(error);
       throw error;
     }
   }
 
-  private async exchangeCodeToToken(code: string): Promise<ExchangeToGoogleToken> {
-    const response = await axios.post<ExchangeToGoogleToken>(
+  private async exchangeCodeToToken(
+    code: string
+  ): Promise<IExchangeToGoogleToken> {
+    const response = await axios.post<IExchangeToGoogleToken>(
       this.endpoints.oauth2TokenUrl,
       {
         ...this.credential,
@@ -57,6 +58,4 @@ export class GoogleOauthProvider extends OAuthProvider {
     );
     return response.data;
   }
-
-
 }

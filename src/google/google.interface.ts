@@ -1,24 +1,4 @@
-import {OauthUserInfo} from "../definition";
-
-export interface OAuth2ClientEndpoints {
-  /**
-   * The base endpoint for token retrieval
-   * .
-   * @example
-   * 'https://oauth2.googleapis.com/token'
-   */
-  oauth2TokenUrl: string;
-
-  /**
-   * The base endpoint to user info.
-   *
-   * @example
-   * 'https://www.googleapis.com/oauth2/v3/userinfo'
-   */
-  oauth2UserInfoUrl: string;
-}
-
-export interface ExchangeToGoogleToken {
+export interface IExchangeToGoogleToken {
   access_token: string;
   expires_in: number;
   scope: string;
@@ -26,8 +6,7 @@ export interface ExchangeToGoogleToken {
   id_token: string;
 }
 
-
-export interface OauthGoogleUserInfo  extends OauthUserInfo {
+export interface IGoogleOauthUserApiResponse {
   sub: string;
   name: string;
   given_name: string;

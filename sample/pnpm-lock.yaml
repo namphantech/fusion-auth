@@ -11,21 +11,13 @@ importers:
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
-      fusion-auth:
-        specifier: file:../dist
-        version: dist@file:../dist
 
 packages:
-
-  dist@file:../dist:
-    resolution: {directory: ../dist, type: directory}
 
   dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
 snapshots:
-
-  dist@file:../dist: {}
 
   dotenv@16.4.5: {}

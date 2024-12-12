@@ -15,7 +15,16 @@ export enum OAuthProviderType {
   TIKTOK = "tiktok",
 }
 
+export interface OAuth2ClientEndpoints {
+  oauth2TokenUrl: string;
 
-export interface OauthUserInfo {
-  type: OAuthProviderType
+  oauth2UserInfoUrl: string;
+}
+
+export interface IOauthUserInfo {
+  type: OAuthProviderType;
+  sub: string;
+  email: string;
+  pictureUrl?: string;
+  name?: string;
 }

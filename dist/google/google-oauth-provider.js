@@ -36,19 +36,11 @@ class GoogleOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
                     type: definition_1.OAuthProviderType.GOOGLE,
                     sub: googleUserInfo.sub,
                     name: googleUserInfo.name,
-                    given_name: googleUserInfo.given_name,
-                    family_name: googleUserInfo.family_name,
-                    picture: googleUserInfo.picture,
+                    pictureUrl: googleUserInfo.picture,
                     email: googleUserInfo.email,
-                    email_verified: googleUserInfo.email_verified,
                 };
             }
             catch (error) {
-                if (error.response) {
-                    console.error(error.response.data);
-                    throw error;
-                }
-                console.error(error);
                 throw error;
             }
         });

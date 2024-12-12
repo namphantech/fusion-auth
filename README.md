@@ -1,8 +1,6 @@
 ## FusionAuth SDK
 
-### Overview
-
-This library simplifies the process of integrating OAuth2.0 Authorization
+This library simplifies OAuth2.0 Authorization for social login integration, allowing developers to easily authenticate users through popular social platforms like Google, Facebook, GitHub, Discord.
 
 ### How ```FusionAuth-SDK``` works behind the scenes
 

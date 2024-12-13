@@ -51,6 +51,29 @@ async function getFacebookUserInfo(
   }
 }
 
+async function getGithubUserInfo(
+  responseCode: string
+): Promise<IOauthUserInfo> {
+  const oauthConfig = {
+    clientId: process.env.CLIENT_ID || "",
+    clientSecret: process.env.CLIENT_SECRET || "",
+    redirectUri: process.env.REDIRECT_URI || "",
+  };
+
+  try {
+    const githubProvider = OauthProviderFactory.createProvider(
+      oauthConfig,
+      OAuthProviderType.GITHUB
+    );
+    const githubUserInfo: IOauthUserInfo = await githubProvider.verifyCode(
+      responseCode
+    );
+    return githubUserInfo;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function integrateOauthWithGoogleProvider() {
   const responseCode = process.env.RESPONSE_CODE || "";
   const userInfo = await getGoogleUserInfo(responseCode);
@@ -63,6 +86,12 @@ async function integrateOauthWithFacebookProvider() {
   console.log({ userInfo });
 }
 
+async function integrateOauthWithGithubProvider() {
+  const responseCode = process.env.RESPONSE_CODE || "";
+  const userInfo = await getGithubUserInfo(responseCode);
+  console.log({ userInfo });
+}
+
 (async () => {
-  await integrateOauthWithFacebookProvider();
+  await integrateOauthWithGithubProvider();
 })();

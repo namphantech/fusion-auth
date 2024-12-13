@@ -66,6 +66,32 @@ const responseCode = ''
   }
 ```
 
+### Integrate with Github
+
+```bash
+import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo } from 'fusion-auth';
+
+const githubOauthConfig = {
+  clientId: process.env.CLIENT_ID || '',
+  clientSecret: process.env.CLIENT_SECRET || '',
+  redirectUri: process.env.REDIRECT_URI || '',
+};
+const responseCode = ''
+
+ try {
+    const githubProvider = OauthProviderFactory.createProvider(
+      oauthConfig,
+      OAuthProviderType.GITHUB
+    );
+    const githubUserInfo: IOauthUserInfo = await githubProvider.verifyCode(
+      responseCode
+    );
+    console.log({ githubUserInfo });
+  } catch (error) {
+    throw error;
+  }
+
+```
 ## Contributing
 
 Contributions are welcome! Please open a pull request if you have any enhancements for this library.

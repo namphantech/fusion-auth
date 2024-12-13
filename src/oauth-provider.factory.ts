@@ -4,6 +4,7 @@ import { GoogleOauthProvider } from "./google/google-oauth-provider";
 import { IProviderCredential, OAuthProviderType } from "./definition";
 import { ClientCredentialValidator } from "./client-credential.validator";
 import { FacebookOauthProvider } from "./facebook/facebook-oauth-provider";
+import { GithubOauthProvider } from "./github/github-oauth-provider";
 
 export class OauthProviderFactory {
   public static createProvider(
@@ -16,6 +17,8 @@ export class OauthProviderFactory {
         return new GoogleOauthProvider(credential);
       case OAuthProviderType.FACEBOOK:
         return new FacebookOauthProvider(credential);
+      case OAuthProviderType.GITHUB:
+        return new GithubOauthProvider(credential);
       default:
         throw new Error(`This current ${provider} provider isn't support`);
     }

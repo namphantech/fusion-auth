@@ -5,11 +5,6 @@ var OAuthProviderType;
 (function (OAuthProviderType) {
     OAuthProviderType["GOOGLE"] = "google";
     OAuthProviderType["FACEBOOK"] = "facebook";
-    OAuthProviderType["DISCORD"] = "discord";
-    OAuthProviderType["TELEGRAM"] = "telegram";
-    OAuthProviderType["TWITTER"] = "twitter";
     OAuthProviderType["GITHUB"] = "github";
-    OAuthProviderType["LINKEDIN"] = "linkedin";
-    OAuthProviderType["INSTAGRAM"] = "instagram";
-    OAuthProviderType["TIKTOK"] = "tiktok";
+    OAuthProviderType["DISCORD"] = "discord";
 })(OAuthProviderType || (exports.OAuthProviderType = OAuthProviderType = {}));

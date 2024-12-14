@@ -90,7 +90,31 @@ const responseCode = ''
   } catch (error) {
     throw error;
   }
+```
 
+### Integrate with Discord
+```bash
+import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo } from 'fusion-auth';
+
+const discordOauthConfig = {
+  clientId: process.env.CLIENT_ID || '',
+  clientSecret: process.env.CLIENT_SECRET || '',
+  redirectUri: process.env.REDIRECT_URI || '',
+};
+const responseCode = ''
+
+ try {
+    const discordProvider = OauthProviderFactory.createProvider(
+      oauthConfig,
+      OAuthProviderType.DISCORD
+    );
+    const discordUserInfo: IOauthUserInfo = await discordProvider.verifyCode(
+      responseCode
+    );
+    console.log({ discordUserInfo });
+  } catch (error) {
+    throw error;
+  }
 ```
 ## Contributing
 
@@ -102,6 +126,9 @@ Contributions are welcome! Please open a pull request if you have any enhancemen
 
 [Google Client Docs](https://developers.google.com/identity/protocols/oauth2)
 
+[Github Client Docs](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps)
+
+[Discord Client Docs](https://discord.com/developers/docs/topics/oauth2)
 ## Contact
 
 Mail: phanvanhoainam22@gmail.com

@@ -19,3 +19,4 @@ __exportStar(require("./oauth-provider.factory"), exports);
 __exportStar(require("./google/google.interface"), exports);
 __exportStar(require("./facebook/facebook.interface"), exports);
 __exportStar(require("./github/github.interface"), exports);
+__exportStar(require("./discord/discord.interface"), exports);

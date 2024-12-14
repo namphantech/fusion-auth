@@ -5,5 +5,6 @@ export declare class GithubOauthProvider extends OAuthProvider {
     constructor(credential: IProviderCredential);
     verifyCode(code: string): Promise<IOauthUserInfo>;
     private exchangeCodeToToken;
-    private fetchGithubUserEmail;
+    private fetchUserInfo;
+    private fetchPrimaryEmail;
 }

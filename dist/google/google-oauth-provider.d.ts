@@ -5,4 +5,5 @@ export declare class GoogleOauthProvider extends OAuthProvider {
     constructor(credential: IProviderCredential);
     verifyCode(code: string): Promise<IOauthUserInfo>;
     private exchangeCodeToToken;
+    private fetchUserInfo;
 }

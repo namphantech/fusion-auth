@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OAuthProviderType = void 0;
+exports.defaultErrorMessage = exports.OAuthProviderType = void 0;
 var OAuthProviderType;
 (function (OAuthProviderType) {
     OAuthProviderType["GOOGLE"] = "google";
@@ -8,3 +8,4 @@ var OAuthProviderType;
     OAuthProviderType["GITHUB"] = "github";
     OAuthProviderType["DISCORD"] = "discord";
 })(OAuthProviderType || (exports.OAuthProviderType = OAuthProviderType = {}));
+exports.defaultErrorMessage = "Unknown error";

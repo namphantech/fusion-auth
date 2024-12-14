@@ -28,10 +28,7 @@ class GoogleOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const tokenData = yield this.exchangeCodeToToken(code);
-                const response = yield axios_1.default.get(this.endpoints.oauth2UserInfoUrl, {
-                    params: { access_token: tokenData.access_token },
-                });
-                const googleUserInfo = response.data;
+                const googleUserInfo = yield this.fetchUserInfo(tokenData.access_token);
                 return {
                     type: definition_1.OAuthProviderType.GOOGLE,
                     sub: googleUserInfo.sub,
@@ -47,8 +44,40 @@ class GoogleOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
     }
     exchangeCodeToToken(code) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.post(this.endpoints.oauth2TokenUrl, Object.assign(Object.assign({}, this.credential), { code, grant_type: "authorization_code" }));
-            return response.data;
+            var _a;
+            try {
+                const response = yield axios_1.default.post(this.endpoints.oauth2TokenUrl, {
+                    client_id: this.credential.clientId,
+                    client_secret: this.credential.clientSecret,
+                    redirect_uri: this.credential.redirectUri,
+                    code,
+                    grant_type: "authorization_code",
+                }, {
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                });
+                return response.data;
+            }
+            catch (error) {
+                const errorMessage = ((_a = error.response.data) === null || _a === void 0 ? void 0 : _a.error) || definition_1.defaultErrorMessage;
+                throw new Error(`Failed to exchange code for token: ${errorMessage}`);
+            }
+        });
+    }
+    fetchUserInfo(accessToken) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const response = yield axios_1.default.get(this.endpoints.oauth2UserInfoUrl, {
+                    params: {
+                        access_token: accessToken,
+                    },
+                });
+                return response.data;
+            }
+            catch (error) {
+                const errorMessage = ((_a = error.response.data) === null || _a === void 0 ? void 0 : _a.error_description) || definition_1.defaultErrorMessage;
+                throw new Error(`Failed to fetch user info: ${errorMessage}`);
+            }
         });
     }
 }

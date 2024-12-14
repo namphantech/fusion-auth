@@ -20,6 +20,8 @@ export interface IOauthUserInfo {
   type: OAuthProviderType;
   sub: string;
   email: string;
-  pictureUrl?: string;
+  pictureUrl?: string | null;
   name?: string;
 }
+
+export const defaultErrorMessage = "Unknown error";

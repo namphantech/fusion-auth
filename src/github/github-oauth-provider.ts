@@ -24,63 +24,70 @@ export class GithubOauthProvider extends OAuthProvider {
   }
 
   async verifyCode(code: string): Promise<IOauthUserInfo> {
-    try {
-      const tokenData = await this.exchangeCodeToToken(code);
-      console.log({ tokenData });
-      const response = await axios.get<IGithubOauthUserApiResponse>(
-        this.endpoints.oauth2UserInfoUrl,
-        {
-          headers: {
-            Authorization: `Bearer ${tokenData.access_token}`,
-          },
-        }
-      );
-      const githubUserInfo = response.data;
-      const githubUserEmail = await this.fetchGithubUserEmail(
-        tokenData.access_token
-      );
-      return {
-        type: OAuthProviderType.GITHUB,
-        sub: githubUserInfo.id.toString(),
-        name: githubUserInfo.name,
-        email: githubUserEmail,
-        pictureUrl: githubUserInfo.avatar_url,
-      };
-    } catch (error) {
-      throw error;
-    }
+    const tokenData = await this.exchangeCodeToToken(code);
+    const githubUserInfo = await this.fetchUserInfo(tokenData.access_token);
+    const primaryEmail = await this.fetchPrimaryEmail(tokenData.access_token);
+
+    return {
+      type: OAuthProviderType.GITHUB,
+      sub: githubUserInfo.id.toString(),
+      name: githubUserInfo.name,
+      email: primaryEmail,
+      pictureUrl: githubUserInfo.avatar_url,
+    };
   }
 
   private async exchangeCodeToToken(
     code: string
   ): Promise<IExchangeToGithubToken> {
-    const response = await axios.post<IExchangeToGithubToken>(
-      this.endpoints.oauth2TokenUrl,
-      {
-        client_id: this.credential.clientId,
-        redirect_uri: this.credential.redirectUri,
-        client_secret: this.credential.clientSecret,
-        code,
-      },
-      {
-        headers: {
-          "Accept": "application/json",
+    try {
+      const response = await axios.post<IExchangeToGithubToken>(
+        this.endpoints.oauth2TokenUrl,
+        {
+          client_id: this.credential.clientId,
+          redirect_uri: this.credential.redirectUri,
+          client_secret: this.credential.clientSecret,
+          code,
         },
-      }
-    );
-    return response.data;
+        {
+          headers: { Accept: "application/json" },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to exchange code for token: ${error.message}`);
+    }
   }
 
-  private async fetchGithubUserEmail(token: string): Promise<string> {
-    const response = await axios.get<IGithubUserEmail[]>(
-      `${this.endpoints.oauth2UserInfoUrl}/emails`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const githubUserEmail = response.data[0]?.email;
-    return githubUserEmail;
+  private async fetchUserInfo(
+    accessToken: string
+  ): Promise<IGithubOauthUserApiResponse> {
+    try {
+      const response = await axios.get<IGithubOauthUserApiResponse>(
+        this.endpoints.oauth2UserInfoUrl,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response.data?.message;
+      throw new Error(`Failed to fetch user info: ${errorMessage}`);
+    }
+  }
+
+  private async fetchPrimaryEmail(accessToken: string): Promise<string> {
+    try {
+      const response = await axios.get<IGithubUserEmail[]>(
+        `${this.endpoints.oauth2UserInfoUrl}/emails`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      const primaryEmail = response.data[0].email as string;
+      return primaryEmail;
+    } catch (error) {
+      throw new Error(`Failed to fetch user email: ${error.message}`);
+    }
   }
 }

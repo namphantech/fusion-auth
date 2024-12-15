@@ -17,9 +17,9 @@ $ pnpm i fusion-auth
 #### Integrate with Google
 
 ```bash
-import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo } from 'fusion-auth';
+import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo, IProviderCredential } from 'fusion-auth';
 
-const googleOauthConfig = {
+const googleOauthConfig: IProviderCredential = {
   clientId: process.env.CLIENT_ID || '',
   clientSecret: process.env.CLIENT_SECRET || '',
   redirectUri: process.env.REDIRECT_URI || '',
@@ -43,9 +43,9 @@ try {
 ### Integrate with Facebook
 
 ```bash
-import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo } from 'fusion-auth';
+import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo, IProviderCredential } from 'fusion-auth';
 
-const facebookOauthConfig = {
+const facebookOauthConfig: IProviderCredential = {
   clientId: process.env.CLIENT_ID || '',
   clientSecret: process.env.CLIENT_SECRET || '',
   redirectUri: process.env.REDIRECT_URI || '',
@@ -53,7 +53,7 @@ const facebookOauthConfig = {
 const responseCode = ''
 
  try {
-    const facebookProvider = OauthProviderFactory.createProvider(
+    const facebookProvider: IProviderCredential= OauthProviderFactory.createProvider(
       facebookOauthConfig,
       OAuthProviderType.FACEBOOK
     );
@@ -69,9 +69,9 @@ const responseCode = ''
 ### Integrate with Github
 
 ```bash
-import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo } from 'fusion-auth';
+import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo, IProviderCredential } from 'fusion-auth';
 
-const githubOauthConfig = {
+const githubOauthConfig: IProviderCredential = {
   clientId: process.env.CLIENT_ID || '',
   clientSecret: process.env.CLIENT_SECRET || '',
   redirectUri: process.env.REDIRECT_URI || '',
@@ -94,9 +94,9 @@ const responseCode = ''
 
 ### Integrate with Discord
 ```bash
-import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo } from 'fusion-auth';
+import { OauthProviderFactory, OAuthProviderType, IOauthUserInfo, IProviderCredential } from 'fusion-auth';
 
-const discordOauthConfig = {
+const discordOauthConfig: IProviderCredential = {
   clientId: process.env.CLIENT_ID || '',
   clientSecret: process.env.CLIENT_SECRET || '',
   redirectUri: process.env.REDIRECT_URI || '',
@@ -120,15 +120,6 @@ const responseCode = ''
 
 Contributions are welcome! Please open a pull request if you have any enhancements for this library.
 
-## Reference Documentation
-
-[Facebook Client Docs](https://developers.facebook.com/docs/facebook-login/guides/advanced/manual-flow/)
-
-[Google Client Docs](https://developers.google.com/identity/protocols/oauth2)
-
-[Github Client Docs](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps)
-
-[Discord Client Docs](https://discord.com/developers/docs/topics/oauth2)
 ## Contact
 
 Mail: phanvanhoainam22@gmail.com

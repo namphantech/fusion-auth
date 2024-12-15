@@ -24,19 +24,17 @@ export class GoogleOauthProvider extends OAuthProvider {
   }
 
   public async verifyCode(code: string): Promise<IOauthUserInfo> {
-    try {
-      const tokenData = await this.exchangeCodeToToken(code);
-      const googleUserInfo = await this.fetchUserInfo(tokenData.access_token);
-      return {
-        type: OAuthProviderType.GOOGLE,
-        sub: googleUserInfo.sub,
-        name: googleUserInfo.name,
-        pictureUrl: googleUserInfo.picture,
-        email: googleUserInfo.email,
-      };
-    } catch (error) {
-      throw error;
-    }
+    await this.validateInput(code);
+    
+    const tokenData = await this.exchangeCodeToToken(code);
+    const googleUserInfo = await this.fetchUserInfo(tokenData.access_token);
+    return {
+      type: OAuthProviderType.GOOGLE,
+      sub: googleUserInfo.sub,
+      name: googleUserInfo.name,
+      pictureUrl: googleUserInfo.picture,
+      email: googleUserInfo.email,
+    };
   }
 
   private async exchangeCodeToToken(

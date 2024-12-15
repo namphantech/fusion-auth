@@ -23,6 +23,8 @@ export class DiscordOauthProvider extends OAuthProvider {
   }
 
   async verifyCode(code: string): Promise<IOauthUserInfo> {
+    await this.validateInput(code);
+
     const tokenData = await this.exchangeCodeToToken(code);
     const discordUserInfo = await this.fetchUserInfo(tokenData.access_token);
 
@@ -56,7 +58,8 @@ export class DiscordOauthProvider extends OAuthProvider {
       );
       return response.data;
     } catch (error) {
-      const errorMessage = error.response.data?.error_description || error.message;
+      const errorMessage =
+        error.response.data?.error_description || error.message;
       throw new Error(`Failed to exchange code for token: ${errorMessage}`);
     }
   }

@@ -6,4 +6,10 @@ export abstract class OAuthProvider {
     this.credential = credential;
   }
   abstract verifyCode(code: string): Promise<IOauthUserInfo>;
+
+  async validateInput(code: string): Promise<void> {
+    if (!code) {
+      throw new Error("Invalid input: Authorization code is required.");
+    }
+  }
 }

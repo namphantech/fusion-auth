@@ -26,6 +26,7 @@ class GithubOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
     }
     verifyCode(code) {
         return __awaiter(this, void 0, void 0, function* () {
+            yield this.validateInput(code);
             const tokenData = yield this.exchangeCodeToToken(code);
             const githubUserInfo = yield this.fetchUserInfo(tokenData.access_token);
             const primaryEmail = yield this.fetchPrimaryEmail(tokenData.access_token);

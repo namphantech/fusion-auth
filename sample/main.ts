@@ -25,10 +25,6 @@ async function getUserInfo(
 
 async function run(providerType: OAuthProviderType) {
   const responseCode = process.env.RESPONSE_CODE || "";
-  if (!responseCode) {
-    console.error("RESPONSE_CODE is not set in environment variables.");
-    return;
-  }
   console.log(`Starting integration with provider: ${providerType}`);
   try {
     const userInfo = await getUserInfo(responseCode, providerType);

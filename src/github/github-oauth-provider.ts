@@ -24,6 +24,8 @@ export class GithubOauthProvider extends OAuthProvider {
   }
 
   async verifyCode(code: string): Promise<IOauthUserInfo> {
+    await this.validateInput(code);
+    
     const tokenData = await this.exchangeCodeToToken(code);
     const githubUserInfo = await this.fetchUserInfo(tokenData.access_token);
     const primaryEmail = await this.fetchPrimaryEmail(tokenData.access_token);

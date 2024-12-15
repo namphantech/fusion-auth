@@ -26,20 +26,16 @@ class GoogleOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
     }
     verifyCode(code) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const tokenData = yield this.exchangeCodeToToken(code);
-                const googleUserInfo = yield this.fetchUserInfo(tokenData.access_token);
-                return {
-                    type: definition_1.OAuthProviderType.GOOGLE,
-                    sub: googleUserInfo.sub,
-                    name: googleUserInfo.name,
-                    pictureUrl: googleUserInfo.picture,
-                    email: googleUserInfo.email,
-                };
-            }
-            catch (error) {
-                throw error;
-            }
+            yield this.validateInput(code);
+            const tokenData = yield this.exchangeCodeToToken(code);
+            const googleUserInfo = yield this.fetchUserInfo(tokenData.access_token);
+            return {
+                type: definition_1.OAuthProviderType.GOOGLE,
+                sub: googleUserInfo.sub,
+                name: googleUserInfo.name,
+                pictureUrl: googleUserInfo.picture,
+                email: googleUserInfo.email,
+            };
         });
     }
     exchangeCodeToToken(code) {

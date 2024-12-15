@@ -24,6 +24,8 @@ export class FacebookOauthProvider extends OAuthProvider {
   }
 
   async verifyCode(code: string): Promise<IOauthUserInfo> {
+    await this.validateInput(code);
+    
     const tokenData = await this.exchangeCodeToToken(code);
     const facebookUserInfo = await this.fetchUserInfo(tokenData.access_token);
 

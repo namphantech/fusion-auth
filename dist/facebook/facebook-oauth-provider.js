@@ -61,7 +61,6 @@ class FacebookOauthProvider extends oauth_provider_abstract_1.OAuthProvider {
     fetchUserInfo(accessToken) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log({ accessToken });
                 const response = yield axios_1.default.get(this.endpoints.oauth2UserInfoUrl, {
                     params: {
                         access_token: accessToken,

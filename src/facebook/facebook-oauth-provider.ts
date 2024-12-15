@@ -63,7 +63,6 @@ export class FacebookOauthProvider extends OAuthProvider {
     accessToken: string
   ): Promise<IFacebookOauthUserApiResponse> {
     try {
-      console.log({ accessToken });
       const response = await axios.get<IFacebookOauthUserApiResponse>(
         this.endpoints.oauth2UserInfoUrl,
         {
